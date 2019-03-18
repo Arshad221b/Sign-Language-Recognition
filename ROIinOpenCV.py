@@ -7,32 +7,6 @@ from PIL import Image
 
 model = load_model('CNNmodel.h5')
 
-def get_square(image, square_size):
-    
-    height, width = image.shape    
-    if(height > width):
-      differ = height
-    else:
-      differ = width
-    differ += 4
-
-    # square filler
-    mask = np.zeros((differ, differ), dtype = "uint8")
-
-    x_pos = int((differ - width) / 2)
-    y_pos = int((differ - height) / 2)
-
-    # center image inside the square
-    mask[y_pos: y_pos + height, x_pos: x_pos + width] = image[0: height, 0: width]
-
-    # downscale if needed
-    if differ / square_size > 1:
-      mask = pyramid_reduce(mask, differ / square_size)
-    else:
-      mask = cv2.resize(mask, (square_size, square_size), interpolation = cv2.INTER_AREA)
-    return mask
-
-
 def keras_predict(model, image):
     data = np.asarray( image, dtype="int32" )
     
@@ -62,19 +36,22 @@ while True:
     # Select ROI
     im2 = crop_image(image_frame, 300,300,300,300)
     image_grayscale = cv2.cvtColor(im2, cv2.COLOR_BGR2GRAY)
+    
     image_grayscale_blurred = cv2.GaussianBlur(image_grayscale, (15,15), 0)
-    im3 = get_square(image_grayscale_blurred, 28)
+    im3 = cv2.resize(image_grayscale_blurred, (28,28), interpolation = cv2.INTER_AREA)
 
-
-    #resized_img = image_resize(image_grayscale_blurred, width = 28, height = 28, inter = cv2.INTER_AREA) 
-    #resized_img = keras_process_image(image_grayscale_blurred)
-    #resized_img = cv2.resize(image_grayscale_blurred,((28,28),1))
+    
+    
     #ar = np.array(resized_img)
     #ar = resized_img.reshape(1,784)
     
-    im4 = np.expand_dims(im3, axis=0)
+    
+    
+    im4 = np.resize(im3, (28, 28, 1))
+    im5 = np.expand_dims(im4, axis=0)
+    
 
-    pred_probab, pred_class = keras_predict(model, im4)
+    pred_probab, pred_class = keras_predict(model, im5)
     print(pred_class, pred_probab)
     if pred_class == 0:
           print('A')
@@ -83,8 +60,8 @@ while True:
  
     # Display cropped image
 
-    #cv2.imshow("Image2",im2)
-    cv2.imshow("Image4",resized_img)
+    cv2.imshow("Image2",im2)
+    #cv2.imshow("Image4",resized_img)
     cv2.imshow("Image3",image_grayscale_blurred)
 
     if cv2.waitKey(25) & 0xFF == ord('q'):
