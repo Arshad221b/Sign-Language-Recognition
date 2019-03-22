@@ -37,6 +37,9 @@ def prediction(pred):
     
     elif pred == 24:
         print('Y')
+    
+    elif pred == 11:
+        print('L')
         
 
 
