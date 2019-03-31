@@ -72,7 +72,7 @@ def main():
                 cv2.destroyAllWindows()
                 break
 
-keras_predict(model, np.zeros((1, 28, 28, 1), dtype=np.uint8))
+
 if __name__ == '__main__':
     main()
 
