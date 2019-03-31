@@ -4,7 +4,7 @@
   <p>2. Keras</p>
   <p>3. OpenCV</p>
 
-<h13>Other Tool:<h3>
+<h3>Other Tool:</h3>
   <p>Google Colab</p>
 
 <h2>How to run</h2>
