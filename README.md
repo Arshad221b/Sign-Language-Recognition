@@ -1,3 +1,4 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <h1>Sign Language Recognition Using OpenCV</h1>
 <h2>Dependencies:</h2>
   <p>1. Tensorflow</p>
