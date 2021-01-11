@@ -21,4 +21,4 @@
 
 
 <p>Read the entire process at:</p>
-<link>https://medium.com/arshad-kazi/sign-language-recognition-using-cnn-and-opencv-beginner-level-72091ca35a19</link>
+<link>http://arshad-kazi.com/sign-language-recognition-using-cnn-and-opencv/</link>
