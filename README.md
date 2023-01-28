@@ -22,3 +22,6 @@
 
 <p>Read the entire process at:</p>
 <link>http://arshad-kazi.com/sign-language-recognition-using-cnn-and-opencv/</link>
+
+<h2>Similar Project(s)</h2>
+<a href= 'https://github.com/Arshad221b/Multi-Task-Learning-for-Images-age-gender'>Multi Task learning for Images: Age and Gender Prediction</a>
