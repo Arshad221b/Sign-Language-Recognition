@@ -1,0 +1,39 @@
+name: CodeQL Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  analyze:
+    name: Analyze code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: python
+
+      - name: Build CodeQL database
+        run: |
+          codeql database create --language=python --source-root=. --name=my-database
+          codeql database analyze --database=my-database --output=results.sarif
+      - name: Publish findings as comment
+        run: |
+            echo "Code scan findings summary:"
+            cat results.sarif | jq -r '.runs[].tool.driver.runs[].results[].message.text' | awk '!seen[$0]++' | sed -E -e 's/(.)/\1 /g' -e 's/^/  - /' | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g' | sed -E 's/"/\\"/g' > comment.txt
+            gh issue comment <issue-number> --body-file comment.txt
+
+
+      - name: Upload CodeQL results
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
